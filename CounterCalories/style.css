@@ -1,0 +1,144 @@
+body{
+    padding:50px;
+}
+.container{
+    max-width: 600px;
+    margin:0 auto;
+    padding:50px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.form-group{
+    margin-bottom:30px;
+}
+
+.mb-30 {
+    margin-bottom:30px;
+}
+
+.mt-30 {
+    margin-top: 30px;
+}
+
+.mt-40 {
+    margin-top: 40px;
+}
+
+.container-home {
+    max-width: 800px;
+    margin:0 auto;
+    padding:50px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+/* MEAL */
+.meal {
+    width: 800px;
+    padding: 30px;
+    background: #e9fac8;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    gap:15px;
+    flex-direction: column;
+}
+
+.meal-list li {
+    list-style: none;
+}
+
+.nutritional-values tr {
+    display: table-row;
+}
+
+.nutritional-values-names td,
+.product td, 
+.total-nutritional-values td {
+    padding: 15px; 
+    text-align: center;
+}
+
+.product-name-header {
+    font-weight: bold;
+}
+
+.delete-icon {
+    fill: none;
+    stroke-width: 1.5;
+    stroke: currentColor;
+    width: 24px;  /* Setează dimensiunea dorită pentru icon */
+    height: 24px; /* Setează dimensiunea dorită pentru icon */
+}
+
+.delete-icon {
+    
+}
+
+/* button - search */
+.btn-search {
+    height: 35px;
+    font-size: 18px;
+    display: flex;
+    gap: 2px;
+}
+
+.btn-search input {
+    border: none;
+    outline: none;
+}
+
+.food-search-button {
+    background-color: #c0eb75;
+    padding: 5px 10px;
+    border: none;
+}
+
+.food-search-button:after,
+.food-search-button:hover {
+    background-color: #94d82d;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    transition: 0.3s all;
+}
+
+/* percentage bar */
+
+.progress-bar {
+    font-size: 25px !important;
+    border-radius: 7.5px;
+}
+
+#file::-webkit-progress-value {
+    background-color: #66a80f ; /* Set the desired color */
+}
+  
+
+#file::-webkit-progress-bar {
+    background-color: #ddd; /* Set the desired color for the unfilled portion */
+}
+
+/* go back */
+.btn-go-back {
+    margin: 0 auto;
+}
+
+.btn-primaryy {
+    background-color: #75b9eb;
+}
+
+.btn-warningg {
+    background-color: #ebd975;
+}
+
+.btn-successs {
+    background-color: #c0eb75;
+}
+
+.btns button {
+    width: 110px;
+}
+
+.btns button a {
+    text-decoration: none;
+    color: black;
+}
+
+.btns {
+    gap: 20px;  
+}
