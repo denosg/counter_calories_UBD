@@ -31,21 +31,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $currentDate = date("Y-m-d");
 
     // Verifica dacă există deja o intrare pentru utilizatorul curent în aceeași zi
-    $sqlCheck = "SELECT * FROM meals WHERE userId = ? AND date = ?";
+    $sqlCheck = "SELECT * FROM meals WHERE userId = ? AND mealName = ?";
     $stmtCheck = mysqli_stmt_init($conn);
 
     if (mysqli_stmt_prepare($stmtCheck, $sqlCheck)) {
-        mysqli_stmt_bind_param($stmtCheck, "ss", $userId, $currentDate);
+        mysqli_stmt_bind_param($stmtCheck, "ss", $userId, $mealName);
         mysqli_stmt_execute($stmtCheck);
         mysqli_stmt_store_result($stmtCheck);
 
         if (mysqli_stmt_num_rows($stmtCheck) > 0) {
             // Dacă există deja o intrare, faceți un UPDATE
-            $sqlUpdate = "UPDATE meals SET proteins = ?, calories = ?, fats = ?, carbo = ?, sugars = ?, mealName = ? WHERE userId = ? AND date = ?";
+            $sqlUpdate = "UPDATE meals SET proteins = ?, calories = ?, fats = ?, carbo = ?, sugars = ?, mealName = ? WHERE userId = ? AND mealName = ?";
             $stmtUpdate = mysqli_stmt_init($conn);
 
             if (mysqli_stmt_prepare($stmtUpdate, $sqlUpdate)) {
-                mysqli_stmt_bind_param($stmtUpdate, "ssssssss", $totalProteins, $totalCalories, $totalFats, $totalCarbo, $totalSugars, $mealName, $userId, $currentDate);
+                mysqli_stmt_bind_param($stmtUpdate, "ssssssss", $totalProteins, $totalCalories, $totalFats, $totalCarbo, $totalSugars, $mealName, $userId, $mealName);
                 mysqli_stmt_execute($stmtUpdate);
                 echo "<div class='alert alert-success'>Meal was updated</div>";
             } else {

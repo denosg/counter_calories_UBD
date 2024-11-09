@@ -44,8 +44,6 @@ $conn->close();
 </head>
 <body>
 <container class='d-flex justify-content-center align-items-center flex-column'>
-    <h1>Your Meals</h1>
-
     <div class="container mt-4">
         <?php if (count($meals) > 0): ?>
             <ul class="list-group">

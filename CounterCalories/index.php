@@ -62,10 +62,36 @@ function calculateCalories($sex, $weight, $height, $age)
     return $calories;
 }
 
-mysqli_close($conn);
+function getMealsCalories($conn, $userId)
+{
+    $currentDate = date("Y-m-d");
+    $todayTotalCalories = 0;
+
+    // Query to get today's meals for the given user ID
+    $sql = "SELECT SUM(calories) as total_calories FROM meals WHERE userId = ? AND date = ?";
+    $stmt = mysqli_stmt_init($conn);
+
+    if (mysqli_stmt_prepare($stmt, $sql)) {
+        mysqli_stmt_bind_param($stmt, "ss", $userId, $currentDate);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_bind_result($stmt, $totalCalories);
+        mysqli_stmt_fetch($stmt);
+        $todayTotalCalories = $totalCalories ?: 0;
+        mysqli_stmt_close($stmt);
+    }
+
+    return $todayTotalCalories;
+}
+
 $dailyTarget = 2000;
 
-$progressPercentage = ($calories / $dailyTarget) * 100;
+$todayTotalCalories = getMealsCalories($conn, $userId);
+$progressPercentage = ($todayTotalCalories / $dailyTarget) * 100;
+if ($progressPercentage > 100) {
+    $progressPercentage = 100;
+}
+$progressPercentageDisplay = round($progressPercentage, 2);
+
 
 // Ensure percentage doesn't exceed 100%
 if ($progressPercentage > 100) {
@@ -75,6 +101,7 @@ if ($progressPercentage > 100) {
 // Round to two decimal places for display purposes
 $progressPercentageDisplay = round($progressPercentage, 2);
 
+mysqli_close($conn);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -102,19 +129,18 @@ $progressPercentageDisplay = round($progressPercentage, 2);
         <a href="logout.php" class="btn btn-warningg">Logout</a>
     </div>
     <div class="progress-container">
-        <div class="progress-container">
-            <div class="progress-bar" role="progressbar" style="width: <?php echo $progressPercentage; ?>%;"
-                 aria-valuenow="<?php echo $progressPercentage; ?>" aria-valuemin="0" aria-valuemax="100">
-                <?php echo $progressPercentageDisplay; ?>%
-            </div>
-            <div class="progress-bar-labels d-flex justify-content-between">
-                <span>0</span>
-                <span><?php echo round($calories); ?> / 2000 calories</span>
-            </div>
+        <div class="progress-bar" role="progressbar" style="width: <?php echo $progressPercentage; ?>%;"
+             aria-valuenow="<?php echo $progressPercentage; ?>" aria-valuemin="0" aria-valuemax="100">
+            <?php echo $progressPercentageDisplay; ?>%
         </div>
-        <iframe src="my_meals.php" style="width: 1000px; height: 400px; border: none;"></iframe>
-
     </div>
+    <div class="progress-bar-labels d-flex justify-content-between">
+        <span>0</span>
+        <span><?php echo round($todayTotalCalories); ?> / <?php echo round($calories); ?>  calories</span>
+    </div>
+    <h1>Your Meals</h1>
+    <iframe src="my_meals.php" style="width: 100%; height: 600px; border: none; display: block; margin: auto;"></iframe>
+
     <ul class='meal-list'>
         <li>
             <div class='meal mt-40 d-flex justify-content-center align-items-center flex-colum'>
@@ -147,8 +173,6 @@ $progressPercentageDisplay = round($progressPercentage, 2);
     </ul>
     <div class='d-flex justify-content-center align-items-center btns'>
         <button type='submit' name='btn-save' class='btn btn-successs save-meal'>Save</button>
-        <!-- <button type='submit' class='btn btn-primaryy'><a href='save_meal.php'>Last meals</a></button> -->
-        <button type='submit' class='btn btn-warningg'><a href="logout.php">Logout</a></button>
     </div>
 </container>
 <form id="saveMealForm" action="save_meal.php" method="post" style="display: none;">
@@ -361,14 +385,16 @@ $progressPercentageDisplay = round($progressPercentage, 2);
 
 <style>
     .progress-container {
-        width: 100%;
+        width: 30%;
         margin: 20px 0;
+        background-color: #d3d3d3; /* Light grey background for the progress container */
+        border-radius: 5px;
     }
 
     .progress-bar {
-        height: 30px;
-        background-color: #4caf50;
         color: #fff;
+        height: 30px;
+        background-color: #4caf50; /* Green color for the filled portion */
         text-align: center;
         line-height: 30px;
         border-radius: 5px;
